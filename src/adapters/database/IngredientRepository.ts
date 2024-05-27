@@ -1,4 +1,4 @@
-import { Ingredient } from "../../core/entities";
+import { Ingredient } from '../../core/entities';
 
 export interface GetIngredientFromListDTO {
 	ids: string[];

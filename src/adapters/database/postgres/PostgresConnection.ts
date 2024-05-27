@@ -1,5 +1,5 @@
-import { Client, Pool } from "pg";
-import { Service } from "typedi";
+import { Client, Pool } from 'pg';
+import { Service } from 'typedi';
 
 @Service()
 export class PostgresConnection {
@@ -11,13 +11,13 @@ export class PostgresConnection {
 
   getClient() {
     return new Client({
-      connectionString: this.connectionString,
+      connectionString: this.connectionString
     });
   }
 
   getPool() {
     return new Pool({
-      connectionString: this.connectionString,
+      connectionString: this.connectionString
     });
   }
 }

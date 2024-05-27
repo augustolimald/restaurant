@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { Food, FoodCategory } from "../entities";
-import { UseCase } from "./UseCase";
-import { FoodRepository, IngredientRepository } from "../../adapters/database";
+import { Food, FoodCategory } from '../entities';
+import { UseCase } from './UseCase';
+import { FoodRepository, IngredientRepository } from '../../adapters/database';
 
 export interface CreateFoodDTO {
 	name: string;
@@ -26,8 +26,8 @@ export class CreateFoodUseCase implements UseCase<CreateFoodDTO, Food> {
 		const food = new Food({
 			name: input.name,
 			price: input.price,
-			category: FoodCategory['SNACK'],
-			ingredients: ingredients, 
+			category: FoodCategory.SNACK,
+			ingredients
 		});
 
 		food.id = food.generateId();

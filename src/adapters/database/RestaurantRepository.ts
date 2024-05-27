@@ -1,4 +1,4 @@
-import { Restaurant } from "../../core/entities";
+import { Restaurant } from '../../core/entities';
 
 export interface GetRestaurantDTO {
 	id: string;

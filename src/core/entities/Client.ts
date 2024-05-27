@@ -1,10 +1,10 @@
-import { Entity } from "./Entity";
+import { Entity } from './Entity';
 
 interface CreateClientDTO {
 	id?: string;
-	cpf?: string,
-	name?: string,
-	email?: string,
+	cpf?: string;
+	name?: string;
+	email?: string;
 }
 
 export class Client extends Entity {

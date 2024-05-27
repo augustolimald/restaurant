@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { UseCase } from "./UseCase";
-import { Food, FoodCategory } from "../entities";
-import { FoodRepository, IngredientRepository } from "../../adapters/database";
+import { UseCase } from './UseCase';
+import { Food, FoodCategory } from '../entities';
+import { FoodRepository, IngredientRepository } from '../../adapters/database';
 
 export interface UpdateFoodDTO {
 	id: string;
@@ -28,8 +28,8 @@ export class UpdateFoodUseCase implements UseCase<UpdateFoodDTO, Food> {
 			id: input.id,
 			name: input.name,
 			price: input.price,
-			category: FoodCategory['SNACK'],
-			ingredients: ingredients, 
+			category: FoodCategory.SNACK,
+			ingredients
 		});
 
 		await this.foodRepository.update(food);

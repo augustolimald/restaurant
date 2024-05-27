@@ -1,13 +1,13 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { Ingredient } from "../../../core/entities";
-import { PostgresConnection } from "./PostgresConnection";
-import { ServerError, NotFoundError } from "../../../core/exceptions";
-import { GetIngredientFromListDTO, IngredientRepository } from "../IngredientRepository";
+import { Ingredient } from '../../../core/entities';
+import { PostgresConnection } from './PostgresConnection';
+import { ServerError, NotFoundError } from '../../../core/exceptions';
+import { GetIngredientFromListDTO, IngredientRepository } from '../IngredientRepository';
 
 @Service({ id: 'ingredient.postgres'})
 export class IngredientPostgresRepository implements IngredientRepository {
-	
+
 	@Inject()
 	private connection: PostgresConnection;
 
@@ -23,7 +23,7 @@ export class IngredientPostgresRepository implements IngredientRepository {
 
 		return response.rows.map(row => new Ingredient(row));
 	}
-	
+
 	async getFromList(data: GetIngredientFromListDTO): Promise<Ingredient[]> {
 		const pool = this.connection.getPool();
 
@@ -38,7 +38,7 @@ export class IngredientPostgresRepository implements IngredientRepository {
 		pool.end();
 
 		if (response.rowCount !== values.length) {
-      throw new NotFoundError(`Erro ao procurar ingredientes com ids = ${values.join(',')}`)
+      throw new NotFoundError(`Erro ao procurar ingredientes com ids = ${values.join(',')}`);
     }
 
 		return response.rows.map(row => new Ingredient(row));
@@ -47,8 +47,8 @@ export class IngredientPostgresRepository implements IngredientRepository {
 	async create(data: Ingredient): Promise<Ingredient> {
 		const pool = this.connection.getPool();
 
-		const keys = Object.keys(data)
-		const values = Object.values(data)
+		const keys = Object.keys(data);
+		const values = Object.values(data);
 		const indexes = keys.map((_, index) => `$${index + 1}`);
 
 		const response = await pool.query(
@@ -59,7 +59,7 @@ export class IngredientPostgresRepository implements IngredientRepository {
 		pool.end();
 
 		if (response.rowCount !== 1) {
-      throw new ServerError(`Erro ao salvar ingredient com id = ${data.id}`)
+      throw new ServerError(`Erro ao salvar ingredient com id = ${data.id}`);
     }
 
 		return new Ingredient(response.rows[0]);
@@ -76,7 +76,7 @@ export class IngredientPostgresRepository implements IngredientRepository {
 		pool.end();
 
 		if (response.rowCount !== 1) {
-      throw new ServerError(`Erro ao salvar ingredient com id = ${data.id}`)
+      throw new ServerError(`Erro ao salvar ingredient com id = ${data.id}`);
     }
 
 		return new Ingredient(response.rows[0]);

@@ -21,9 +21,9 @@ export class ClientController implements Controller {
 		const client = await this.createClientUseCase.handle({
 			cpf: request.body.cpf,
 			name: request.body.name,
-			email: request.body.email,
+			email: request.body.email
 		});
 
-		return response.status(201).json(client)
+		return response.status(201).json(client);
 	}
 }

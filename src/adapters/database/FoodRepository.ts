@@ -1,4 +1,4 @@
-import { Food } from "../../core/entities";
+import { Food } from '../../core/entities';
 
 export interface GetFoodDTO {
 	id: string;

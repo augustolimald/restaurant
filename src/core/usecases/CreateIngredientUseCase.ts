@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { UseCase } from "./UseCase";
-import { Ingredient } from "../entities";
-import { IngredientRepository } from "../../adapters/database";
+import { UseCase } from './UseCase';
+import { Ingredient } from '../entities';
+import { IngredientRepository } from '../../adapters/database';
 
 export interface CreateIngredientDTO {
 	name: string;
@@ -21,6 +21,6 @@ export class CreateIngredientUseCase implements UseCase<CreateIngredientDTO, Ing
 
 		await this.ingredientRepository.create(ingredient);
 
-		return ingredient
+		return ingredient;
 	}
 }

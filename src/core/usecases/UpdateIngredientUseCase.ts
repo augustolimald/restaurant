@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { UseCase } from "./UseCase";
-import { Ingredient } from "../entities";
-import { IngredientRepository } from "../../adapters/database";
+import { UseCase } from './UseCase';
+import { Ingredient } from '../entities';
+import { IngredientRepository } from '../../adapters/database';
 
 export interface UpdateIngredientDTO {
 	id: string;
@@ -21,6 +21,6 @@ export class UpdateIngredientUseCase implements UseCase<UpdateIngredientDTO, Ing
 
 		const updatedIngredient = await this.ingredientRepository.update(ingredient);
 
-		return updatedIngredient
+		return updatedIngredient;
 	}
 }

@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { Order } from "../entities";
-import { UseCase } from "./UseCase";
-import { OrderRepository } from "../../adapters/database";
+import { Order } from '../entities';
+import { UseCase } from './UseCase';
+import { OrderRepository } from '../../adapters/database';
 
 export interface ListOrderDTO {
 	category?: string;

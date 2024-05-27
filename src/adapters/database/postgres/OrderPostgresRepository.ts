@@ -1,17 +1,17 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { Client, Food, Order, OrderFood, Restaurant } from "../../../core/entities";
-import { GetOrderDTO, OrderRepository } from "../OrderRepository";
-import { PostgresConnection } from "./PostgresConnection";
-import { ClientError } from "../../../core/exceptions";
-import { Pool } from "pg";
+import { Client, Food, Order, OrderFood, Restaurant } from '../../../core/entities';
+import { GetOrderDTO, OrderRepository } from '../OrderRepository';
+import { PostgresConnection } from './PostgresConnection';
+import { ClientError } from '../../../core/exceptions';
+import { Pool } from 'pg';
 
 @Service({ id: 'order.postgres'})
 export class OrderPostgresRepository implements OrderRepository {
 
 	@Inject()
 	private connection: PostgresConnection;
-	
+
 	async getAll(data: GetOrderDTO): Promise<Order[]> {
 		const pool = this.connection.getPool();
 
@@ -19,9 +19,9 @@ export class OrderPostgresRepository implements OrderRepository {
 			'SELECT o.id,o.createdDate,o.closedDate,o.totalPrice,o.status, json_agg(client.*) as client, json_agg(restaurant.*) as restaurant, json_agg(ofo.*) as food FROM "order" o LEFT JOIN (SELECT ofo.*, json_agg(f.*) as food FROM order_food ofo LEFT JOIN food f ON ofo.food_id = f.id GROUP BY ofo.id) ofo ON o.id = ofo.order_id LEFT JOIN client ON o.client_id = client.id LEFT JOIN restaurant ON restaurant.id = o.restaurant_id GROUP BY o.id',
 			[]
 		);
-		
+
 		pool.end();
-	
+
 		return response.rows.map(row => new Order({
 			id: row.id,
 			client: row.client ? new Client(row.client[0]): null,
@@ -31,15 +31,15 @@ export class OrderPostgresRepository implements OrderRepository {
 				quantity: food.quantity,
 				price: food.price,
 				comments: food.comments,
-				food: new Food(food.food[0]),
+				food: new Food(food.food[0])
 			})),
 			totalPrice: row.totalPrice,
 			status: row.status,
 			createdDate: row.createdDate,
-			closedDate: row.closedDate,
+			closedDate: row.closedDate
 		}));
 	}
-	
+
 	async create(data: Order): Promise<Order> {
 		const pool = this.connection.getPool();
 
@@ -55,13 +55,13 @@ export class OrderPostgresRepository implements OrderRepository {
 
 			pool.query('COMMIT');
 			pool.end();
-			
+
 			return data;
 		} catch (err) {
-			console.log(err)
+			console.log(err);
 			pool.query('ROLLBACK');
 			pool.end();
-			throw new ClientError(`Erro ao cadastrar pedido com id=${data.id}`)
+			throw new ClientError(`Erro ao cadastrar pedido com id=${data.id}`);
 		}
 	}
 
@@ -72,7 +72,7 @@ export class OrderPostgresRepository implements OrderRepository {
 		);
 
 		if (response.rowCount !== 1) {
-      throw new ClientError(`Erro ao cadastrar oder com id=${data.id}`)
+      throw new ClientError(`Erro ao cadastrar oder com id=${data.id}`);
     }
 
 		return new Order(response.rows[0]);

@@ -1,4 +1,4 @@
-import { Client } from "../../core/entities";
+import { Client } from '../../core/entities';
 
 export interface GetClientByIdDTO {
 	id: string;

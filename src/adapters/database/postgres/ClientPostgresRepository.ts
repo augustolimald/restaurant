@@ -1,9 +1,9 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { Client } from "../../../core/entities";
-import { PostgresConnection } from "./PostgresConnection";
-import { NotFoundError, ServerError } from "../../../core/exceptions";
-import { ClientRepository, GetClientByCpfDTO, GetClientDTO } from "../ClientRepository";
+import { Client } from '../../../core/entities';
+import { PostgresConnection } from './PostgresConnection';
+import { NotFoundError, ServerError } from '../../../core/exceptions';
+import { ClientRepository, GetClientByCpfDTO, GetClientDTO } from '../ClientRepository';
 
 @Service({ id: 'client.postgres'})
 export class ClientPostgresRepository implements ClientRepository {
@@ -24,7 +24,7 @@ export class ClientPostgresRepository implements ClientRepository {
 		pool.end();
 
 		if (response.rowCount !== 1) {
-      throw new NotFoundError(`Cliente com ${key}='${value}' não existe`)
+      throw new NotFoundError(`Cliente com ${key}='${value}' não existe`);
     }
 
 		return new Client(response.rows[0]);
@@ -43,8 +43,8 @@ export class ClientPostgresRepository implements ClientRepository {
 	public async create(data: Client): Promise<Client> {
 		const pool = this.connection.getPool();
 
-		const keys = Object.keys(data)
-		const values = Object.values(data)
+		const keys = Object.keys(data);
+		const values = Object.values(data);
 		const indexes = keys.map((_, index) => `$${index + 1}`);
 
 		const response = await pool.query(
@@ -55,7 +55,7 @@ export class ClientPostgresRepository implements ClientRepository {
 		pool.end();
 
 		if (response.rowCount !== 1) {
-      throw new ServerError(`Erro ao salvar cliente com id = ${data.id}`)
+      throw new ServerError(`Erro ao salvar cliente com id = ${data.id}`);
     }
 
 		return new Client(response.rows[0]);

@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
-import { NextFunction, Request, Response, Router } from "express";
+import { Inject, Service } from 'typedi';
+import { NextFunction, Request, Response, Router } from 'express';
 
-import { Controller } from "./Controller";
-import { CreateFoodUseCase, ListFoodUseCase, UpdateFoodUseCase, DeleteFoodUseCase } from "../../core/usecases";
+import { Controller } from './Controller';
+import { CreateFoodUseCase, ListFoodUseCase, UpdateFoodUseCase, DeleteFoodUseCase } from '../../core/usecases';
 
 @Service()
 export class FoodController implements Controller {
@@ -33,7 +33,7 @@ export class FoodController implements Controller {
 
 	public async index(request: Request, response: Response, next: NextFunction): Promise<Response>{
 		const foods = await this.listFoodUseCase.handle({
-			category: request.query.category as string | undefined,
+			category: request.query.category as string | undefined
 		});
 
 		return response.status(200).json(foods);
@@ -44,7 +44,7 @@ export class FoodController implements Controller {
 			name: request.body.name,
 			price: request.body.price,
 			category: request.body.category,
-			ingredients: request.body.ingredients,
+			ingredients: request.body.ingredients
 		});
 
 		return response.status(201).json(food);
@@ -56,7 +56,7 @@ export class FoodController implements Controller {
 			name: request.body.name,
 			price: request.body.price,
 			category: request.body.category,
-			ingredients: request.body.ingredients,
+			ingredients: request.body.ingredients
 		});
 
 		return response.status(200).json(food);
@@ -64,7 +64,7 @@ export class FoodController implements Controller {
 
 	public async delete(request: Request, response: Response, next: NextFunction): Promise<Response>{
 		await this.deleteFoodUseCase.handle({
-			id: request.params.food_id,
+			id: request.params.food_id
 		});
 
 		return response.status(204).json();

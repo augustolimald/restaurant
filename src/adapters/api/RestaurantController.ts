@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
-import { Request, Response, Router, NextFunction } from "express";
-import { Controller } from "./Controller";
-import { CreateRestaurantUseCase } from "../../core/usecases/CreateRestaurantUseCase";
-import { ListAllRestaurantUseCase } from "../../core/usecases/ListAllRestaurantUseCase";
+import { Inject, Service } from 'typedi';
+import { Request, Response, Router, NextFunction } from 'express';
+import { Controller } from './Controller';
+import { CreateRestaurantUseCase } from '../../core/usecases/CreateRestaurantUseCase';
+import { ListAllRestaurantUseCase } from '../../core/usecases/ListAllRestaurantUseCase';
 
 @Service()
 export class RestaurantController implements Controller {
@@ -30,7 +30,7 @@ export class RestaurantController implements Controller {
 
 	public async create(request: Request, response: Response, next: NextFunction): Promise<Response>{
 		const restaurant = await this.createRestaurantUseCase.handle({
-			name: request.body.name,
+			name: request.body.name
 		});
 
 		return response.status(201).json(restaurant);

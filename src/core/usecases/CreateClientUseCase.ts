@@ -1,7 +1,7 @@
-import { Inject, Service } from "typedi";
-import { Client } from "../entities";
-import { UseCase } from "./UseCase";
-import { ClientRepository } from "../../adapters/database";
+import { Inject, Service } from 'typedi';
+import { Client } from '../entities';
+import { UseCase } from './UseCase';
+import { ClientRepository } from '../../adapters/database';
 
 export interface CreateClientDTO {
 	cpf: string;
@@ -21,6 +21,6 @@ export class CreateClientUseCase implements UseCase<CreateClientDTO, Client> {
 
 		await this.clientRepository.create(client);
 
-		return client
+		return client;
 	}
 }

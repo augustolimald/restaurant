@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { UseCase } from "./UseCase";
-import { Restaurant } from "../entities";
-import { RestaurantRepository } from "../../adapters/database";
+import { UseCase } from './UseCase';
+import { Restaurant } from '../entities';
+import { RestaurantRepository } from '../../adapters/database';
 
 @Service()
 export class ListAllRestaurantUseCase implements UseCase<void, Restaurant[]> {
@@ -12,6 +12,6 @@ export class ListAllRestaurantUseCase implements UseCase<void, Restaurant[]> {
 
 	async handle(): Promise<Restaurant[]> {
 		const restaurants = await this.restaurantRepository.getAll({});
-		return restaurants
+		return restaurants;
 	}
 }

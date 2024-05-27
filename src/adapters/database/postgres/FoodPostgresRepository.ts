@@ -1,13 +1,13 @@
-import { Inject, Service } from "typedi";
-import { Food, Ingredient } from "../../../core/entities";
-import { FoodRepository, GetFoodDTO, GetAllFoodDTO, DeleteFoodDTO } from "../FoodRepository";
-import { PostgresConnection } from "./PostgresConnection";
-import { ClientError, NotFoundError } from "../../../core/exceptions";
-import { Pool } from "pg";
+import { Inject, Service } from 'typedi';
+import { Food, Ingredient } from '../../../core/entities';
+import { FoodRepository, GetFoodDTO, GetAllFoodDTO, DeleteFoodDTO } from '../FoodRepository';
+import { PostgresConnection } from './PostgresConnection';
+import { ClientError, NotFoundError } from '../../../core/exceptions';
+import { Pool } from 'pg';
 
 @Service({ id: 'food.postgres'})
 export class FoodPostgresRepository implements FoodRepository {
-	
+
 	@Inject()
 	private connection: PostgresConnection;
 
@@ -20,9 +20,9 @@ export class FoodPostgresRepository implements FoodRepository {
 		);
 
 		pool.end();
-	
+
 		if (response.rowCount !== 1) {
-      throw new NotFoundError(`Erro ao ler comida com id=${data.id}`)
+      throw new NotFoundError(`Erro ao ler comida com id=${data.id}`);
     }
 
 		return new Food({
@@ -32,7 +32,7 @@ export class FoodPostgresRepository implements FoodRepository {
 											.ingredients
 											.filter(ingredient => !!ingredient)
 											.map(ingredient => new Ingredient(ingredient))
-		})
+		});
 	}
 
 	async getAll(data: GetAllFoodDTO): Promise<Food[]> {
@@ -46,9 +46,9 @@ export class FoodPostgresRepository implements FoodRepository {
 		pool.end();
 
 		return response.rows.map(row => new Food(
-			{ 
-				...row, 
-				ingredients: row	
+			{
+				...row,
+				ingredients: row
 													.ingredients
 													.filter(ingredient => !!ingredient)
 													.map(ingredient => new Ingredient(ingredient))
@@ -66,12 +66,12 @@ export class FoodPostgresRepository implements FoodRepository {
 
 			pool.query('COMMIT');
 			pool.end();
-			
+
 			return food;
 		} catch (err) {
 			pool.query('ROLLBACK');
 			pool.end();
-			throw new ClientError(`Erro ao cadastrar comida com id=${data.id}`)
+			throw new ClientError(`Erro ao cadastrar comida com id=${data.id}`);
 		}
 	}
 
@@ -86,18 +86,18 @@ export class FoodPostgresRepository implements FoodRepository {
 
 			pool.query('COMMIT');
 			pool.end();
-			
+
 			return food;
 		} catch (err) {
 			pool.query('ROLLBACK');
 			pool.end();
-			throw new ClientError(`Erro ao atualizar comida com id=${data.id}`)
+			throw new ClientError(`Erro ao atualizar comida com id=${data.id}`);
 		}
 	}
 
 	async delete(data: DeleteFoodDTO): Promise<void> {
 		const pool = this.connection.getPool();
-		
+
 		const response = await pool.query(
 			'UPDATE food SET visible = $1 WHERE id = $2 RETURNING *',
 			[false, data.id]
@@ -106,7 +106,7 @@ export class FoodPostgresRepository implements FoodRepository {
 		pool.end();
 
 		if (response.rowCount !== 1) {
-      throw new ClientError(`Erro ao deletar comida com id=${data.id}`)
+      throw new ClientError(`Erro ao deletar comida com id=${data.id}`);
     }
 
 		return;
@@ -119,7 +119,7 @@ export class FoodPostgresRepository implements FoodRepository {
 		);
 
 		if (response.rowCount !== 1) {
-      throw new ClientError(`Erro ao cadastrar comida com id=${data.id}`)
+      throw new ClientError(`Erro ao cadastrar comida com id=${data.id}`);
     }
 
 		return new Food(response.rows[0]);
@@ -132,7 +132,7 @@ export class FoodPostgresRepository implements FoodRepository {
 		);
 
 		if (response.rowCount !== 1) {
-      throw new ClientError(`Erro ao atualizar comida com id=${data.id}`)
+      throw new ClientError(`Erro ao atualizar comida com id=${data.id}`);
     }
 
 		return new Food(response.rows[0]);
@@ -148,7 +148,7 @@ export class FoodPostgresRepository implements FoodRepository {
 		);
 
 		if (response.rowCount !== data.ingredients.length) {
-      throw new ClientError(`Erro ao cadastrar ingredientes da comida com id=${data.id}`)
+      throw new ClientError(`Erro ao cadastrar ingredientes da comida com id=${data.id}`);
     }
 
 		return response.rows;

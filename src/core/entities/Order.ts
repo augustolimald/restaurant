@@ -1,8 +1,8 @@
-import { Client } from "./Client";
-import { Entity } from "./Entity";
-import { Food } from "./Food";
-import { Ingredient } from "./Ingredient";
-import { Restaurant } from "./Restaurant";
+import { Client } from './Client';
+import { Entity } from './Entity';
+import { Food } from './Food';
+import { Ingredient } from './Ingredient';
+import { Restaurant } from './Restaurant';
 
 interface CreateOrderFoodDTO {
 	id?: string;

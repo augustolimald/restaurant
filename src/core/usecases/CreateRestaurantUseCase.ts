@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { UseCase } from "./UseCase";
-import { Restaurant } from "../entities";
-import { RestaurantRepository } from "../../adapters/database";
+import { UseCase } from './UseCase';
+import { Restaurant } from '../entities';
+import { RestaurantRepository } from '../../adapters/database';
 
 export interface CreateRestaurantDTO {
 	name: string;
@@ -20,6 +20,6 @@ export class CreateRestaurantUseCase implements UseCase<CreateRestaurantDTO, Res
 
 		await this.restaurantRepository.create(restaurant);
 
-		return restaurant
+		return restaurant;
 	}
 }

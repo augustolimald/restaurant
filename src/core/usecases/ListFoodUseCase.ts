@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
+import { Inject, Service } from 'typedi';
 
-import { Food } from "../entities";
-import { UseCase } from "./UseCase";
-import { FoodRepository } from "../../adapters/database";
+import { Food } from '../entities';
+import { UseCase } from './UseCase';
+import { FoodRepository } from '../../adapters/database';
 
 export interface ListFoodDTO {
 	category?: string;

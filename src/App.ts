@@ -1,9 +1,9 @@
 import 'reflect-metadata';
-import 'dotenv/config'
+import 'dotenv/config';
 import {Container} from 'typedi';
-import {RestAPI} from './adapters/api/RestAPI'
+import {RestAPI} from './adapters/api/RestAPI';
 
-const restApiPort = process.env.REST_API_PORT
+const restApiPort = process.env.REST_API_PORT;
 
 const restApi = Container.get(RestAPI);
 

@@ -1,4 +1,4 @@
-import { Order } from "../../core/entities";
+import { Order } from '../../core/entities';
 
 export interface GetOrderDTO {
 	category?: string;

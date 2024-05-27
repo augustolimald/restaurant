@@ -1,8 +1,8 @@
-import { Inject, Service } from "typedi";
-import { NextFunction, Request, Response, Router } from "express";
+import { Inject, Service } from 'typedi';
+import { NextFunction, Request, Response, Router } from 'express';
 
-import { Controller } from "./Controller";
-import { CreateIngredientUseCase, UpdateIngredientUseCase, ListIngredientUseCase } from "../../core/usecases";
+import { Controller } from './Controller';
+import { CreateIngredientUseCase, UpdateIngredientUseCase, ListIngredientUseCase } from '../../core/usecases';
 
 @Service()
 export class IngredientController implements Controller {
@@ -34,7 +34,7 @@ export class IngredientController implements Controller {
 	public async create(request: Request, response: Response, next: NextFunction): Promise<Response>{
 		const ingredient = await this.createIngredientUseCase.handle({
 			name: request.body.name,
-			price: request.body.price,
+			price: request.body.price
 		});
 
 		return response.status(201).json(ingredient);
@@ -44,7 +44,7 @@ export class IngredientController implements Controller {
 		const ingredient = await this.updateIngredientUseCase.handle({
 			id: request.params.ingredient_id,
 			name: request.body.name,
-			price: request.body.price,
+			price: request.body.price
 		});
 
 		return response.status(200).json(ingredient);

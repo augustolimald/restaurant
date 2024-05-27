@@ -1,5 +1,5 @@
-import { Entity } from "./Entity";
-import { Ingredient } from "./Ingredient";
+import { Entity } from './Entity';
+import { Ingredient } from './Ingredient';
 
 interface CreateFoodDTO {
 	id?: string;
@@ -13,7 +13,7 @@ export enum FoodCategory {
 	SNACK = 'Lanche',
 	ACCOMPANIANT = 'Acompanhamento',
 	DRINK = 'Bebida',
-	DESSERT = 'Sobremesa',
+	DESSERT = 'Sobremesa'
 }
 
 export class Food extends Entity {

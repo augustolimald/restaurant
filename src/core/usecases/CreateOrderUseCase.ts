@@ -1,19 +1,19 @@
-import { Inject, Service } from "typedi";
-import { Order, OrderFood, OrderStatus } from "../entities";
-import { UseCase } from "./UseCase";
-import { ClientRepository, FoodRepository, OrderRepository, RestaurantRepository, IngredientRepository } from "../../adapters/database";
+import { Inject, Service } from 'typedi';
+import { Order, OrderFood, OrderStatus } from '../entities';
+import { UseCase } from './UseCase';
+import { ClientRepository, FoodRepository, OrderRepository, RestaurantRepository, IngredientRepository } from '../../adapters/database';
 
 export interface CreateOrderDTO {
-	client_cpf?: string,
-	restaurant_id: string,
+	client_cpf?: string;
+	restaurant_id: string;
 	foods: [
 		{
 			food_id: string,
 			quantity: number,
 			ingredientsToAdd: string[],
-			ingredientsToRemove: string[],
+			ingredientsToRemove: string[]
 		}
-	]
+	];
 }
 
 @Service()
@@ -33,7 +33,7 @@ export class CreateOrderUseCase implements UseCase<CreateOrderDTO, Order> {
 
 	@Inject('order.postgres')
 	private orderRepository: OrderRepository;
-	
+
 	async handle(input: CreateOrderDTO): Promise<Order> {
 		const order = new Order({});
 		order.id = order.generateId();
@@ -49,7 +49,7 @@ export class CreateOrderUseCase implements UseCase<CreateOrderDTO, Order> {
 				const orderFood = new OrderFood({});
 				orderFood.id = orderFood.generateId();
 				orderFood.order = order;
-				
+
 				const food = await this.foodRepository.get({ id: inputFood.food_id });
 				orderFood.food = food;
 				orderFood.quantity = inputFood.quantity;
@@ -67,7 +67,7 @@ export class CreateOrderUseCase implements UseCase<CreateOrderDTO, Order> {
 
 				if (inputFood.ingredientsToRemove.length > 0) {
 					const ingredientsToRemove = await this.ingredientRepository.getFromList({ ids: inputFood.ingredientsToRemove });
-					
+
 					ingredientsToRemove.forEach(ingredientToRemove => {
 						const index = orderFood.ingredients.findIndex(ingredient => ingredient.id === ingredientToRemove.id);
 						if (index >= 0) {
@@ -80,7 +80,7 @@ export class CreateOrderUseCase implements UseCase<CreateOrderDTO, Order> {
 
 				return orderFood;
 			})
-		)
+		);
 
 		order.createdDate = new Date();
 		order.closedDate = null;
