@@ -8,77 +8,77 @@ import { GetIngredientFromListDTO, IngredientRepository } from '../IngredientRep
 @Service({ id: 'ingredient.postgres'})
 export class IngredientPostgresRepository implements IngredientRepository {
 
-	@Inject()
-	private connection: PostgresConnection;
+  @Inject()
+  private connection: PostgresConnection;
 
-	async get(): Promise<Ingredient[]> {
-		const pool = this.connection.getPool();
+  async get(): Promise<Ingredient[]> {
+    const pool = this.connection.getPool();
 
-		const response = await pool.query(
-			'SELECT * FROM ingredient',
-			[]
-		);
+    const response = await pool.query(
+      'SELECT * FROM ingredient',
+      []
+    );
 
-		pool.end();
+    pool.end();
 
-		return response.rows.map(row => new Ingredient(row));
-	}
+    return response.rows.map(row => new Ingredient(row));
+  }
 
-	async getFromList(data: GetIngredientFromListDTO): Promise<Ingredient[]> {
-		const pool = this.connection.getPool();
+  async getFromList(data: GetIngredientFromListDTO): Promise<Ingredient[]> {
+    const pool = this.connection.getPool();
 
-		const values = data.ids;
-		const indexes = values.map((_, index) => `$${index + 1}`);
+    const values = data.ids;
+    const indexes = values.map((_, index) => `$${index + 1}`);
 
-		const response = await pool.query(
-			`SELECT * FROM ingredient WHERE id IN (${indexes.join(',')})`,
-			[...values]
-		);
+    const response = await pool.query(
+      `SELECT * FROM ingredient WHERE id IN (${indexes.join(',')})`,
+      [...values]
+    );
 
-		pool.end();
+    pool.end();
 
-		if (response.rowCount !== values.length) {
+    if (response.rowCount !== values.length) {
       throw new NotFoundError(`Erro ao procurar ingredientes com ids = ${values.join(',')}`);
     }
 
-		return response.rows.map(row => new Ingredient(row));
-	}
+    return response.rows.map(row => new Ingredient(row));
+  }
 
-	async create(data: Ingredient): Promise<Ingredient> {
-		const pool = this.connection.getPool();
+  async create(data: Ingredient): Promise<Ingredient> {
+    const pool = this.connection.getPool();
 
-		const keys = Object.keys(data);
-		const values = Object.values(data);
-		const indexes = keys.map((_, index) => `$${index + 1}`);
+    const keys = Object.keys(data);
+    const values = Object.values(data);
+    const indexes = keys.map((_, index) => `$${index + 1}`);
 
-		const response = await pool.query(
-			`INSERT INTO ingredient(${keys.join(', ')}) VALUES (${indexes.join(', ')}) RETURNING *`,
-			[...values]
-		);
+    const response = await pool.query(
+      `INSERT INTO ingredient(${keys.join(', ')}) VALUES (${indexes.join(', ')}) RETURNING *`,
+      [...values]
+    );
 
-		pool.end();
+    pool.end();
 
-		if (response.rowCount !== 1) {
+    if (response.rowCount !== 1) {
       throw new ServerError(`Erro ao salvar ingredient com id = ${data.id}`);
     }
 
-		return new Ingredient(response.rows[0]);
-	}
+    return new Ingredient(response.rows[0]);
+  }
 
-	async update(data: Ingredient): Promise<Ingredient> {
-		const pool = this.connection.getPool();
+  async update(data: Ingredient): Promise<Ingredient> {
+    const pool = this.connection.getPool();
 
-		const response = await pool.query(
-			'UPDATE ingredient SET name = $1, price = $2 WHERE id = $3 RETURNING *',
-			[data.name, data.price, data.id]
-		);
+    const response = await pool.query(
+      'UPDATE ingredient SET name = $1, price = $2 WHERE id = $3 RETURNING *',
+      [data.name, data.price, data.id]
+    );
 
-		pool.end();
+    pool.end();
 
-		if (response.rowCount !== 1) {
+    if (response.rowCount !== 1) {
       throw new ServerError(`Erro ao salvar ingredient com id = ${data.id}`);
     }
 
-		return new Ingredient(response.rows[0]);
-	}
+    return new Ingredient(response.rows[0]);
+  }
 }

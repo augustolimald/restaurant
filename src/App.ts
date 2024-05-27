@@ -10,5 +10,5 @@ const restApi = Container.get(RestAPI);
 restApi.setup();
 
 restApi.api.listen({ port: restApiPort, address: '0.0.0.0' }, () => {
-	console.log(`Server running on port ${restApiPort}`);
+  console.log(`Server running on port ${restApiPort}`);
 });

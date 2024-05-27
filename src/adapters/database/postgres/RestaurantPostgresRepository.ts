@@ -8,57 +8,57 @@ import { GetAllRestaurantDTO, GetRestaurantDTO, RestaurantRepository } from '../
 @Service({ id: 'restaurant.postgres'})
 export class RestaurantPostgresRepository implements RestaurantRepository {
 
-	@Inject()
-	private connection: PostgresConnection;
+  @Inject()
+  private connection: PostgresConnection;
 
-	async get(data: GetRestaurantDTO): Promise<Restaurant> {
-		const pool = this.connection.getPool();
+  async get(data: GetRestaurantDTO): Promise<Restaurant> {
+    const pool = this.connection.getPool();
 
-		const response = await pool.query(
-			'SELECT * FROM restaurant WHERE id = $1',
-			[data.id]
-		);
+    const response = await pool.query(
+      'SELECT * FROM restaurant WHERE id = $1',
+      [data.id]
+    );
 
-		pool.end();
+    pool.end();
 
-		if (response.rowCount !== 1) {
+    if (response.rowCount !== 1) {
       throw new NotFoundError(`Erro ao procurar restaurante com id = ${data.id}`);
     }
 
-		return new Restaurant(response.rows[0]);
-	}
+    return new Restaurant(response.rows[0]);
+  }
 
-	async getAll(data: GetAllRestaurantDTO): Promise<Restaurant[]> {
-		const pool = this.connection.getPool();
+  async getAll(data: GetAllRestaurantDTO): Promise<Restaurant[]> {
+    const pool = this.connection.getPool();
 
-		const response = await pool.query(
-			'SELECT * FROM restaurant',
-			[]
-		);
+    const response = await pool.query(
+      'SELECT * FROM restaurant',
+      []
+    );
 
-		pool.end();
+    pool.end();
 
-		return response.rows.map(row => new Restaurant(row));
-	}
+    return response.rows.map(row => new Restaurant(row));
+  }
 
-	async create(data: Restaurant): Promise<Restaurant> {
-		const pool = this.connection.getPool();
+  async create(data: Restaurant): Promise<Restaurant> {
+    const pool = this.connection.getPool();
 
-		const keys = Object.keys(data);
-		const values = Object.values(data);
-		const indexes = keys.map((_, index) => `$${index + 1}`);
+    const keys = Object.keys(data);
+    const values = Object.values(data);
+    const indexes = keys.map((_, index) => `$${index + 1}`);
 
-		const response = await pool.query(
-			`INSERT INTO restaurant(${keys.join(', ')}) VALUES (${indexes.join(', ')}) RETURNING *`,
-			[...values]
-		);
+    const response = await pool.query(
+      `INSERT INTO restaurant(${keys.join(', ')}) VALUES (${indexes.join(', ')}) RETURNING *`,
+      [...values]
+    );
 
-		pool.end();
+    pool.end();
 
-		if (response.rowCount !== 1) {
+    if (response.rowCount !== 1) {
       throw new ServerError(`Erro ao salvar restaurante com id = ${data.id}`);
     }
 
-		return new Restaurant(response.rows[0]);
-	}
+    return new Restaurant(response.rows[0]);
+  }
 }

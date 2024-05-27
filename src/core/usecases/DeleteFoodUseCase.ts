@@ -5,16 +5,16 @@ import { UseCase } from './UseCase';
 import { FoodRepository } from '../../adapters/database';
 
 export interface DeleteFoodDTO {
-	id: string;
+  id: string;
 }
 
 @Service()
 export class DeleteFoodUseCase implements UseCase<DeleteFoodDTO, void> {
 
-	@Inject('food.postgres')
-	private foodRepository: FoodRepository;
+  @Inject('food.postgres')
+  private foodRepository: FoodRepository;
 
-	async handle(input: DeleteFoodDTO): Promise<void> {
-		await this.foodRepository.delete(input);
-	}
+  async handle(input: DeleteFoodDTO): Promise<void> {
+    await this.foodRepository.delete(input);
+  }
 }

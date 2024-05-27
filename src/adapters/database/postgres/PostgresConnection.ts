@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 
 @Service()
 export class PostgresConnection {
-	private connectionString: string;
+  private connectionString: string;
 
   constructor() {
     this.connectionString = process.env.POSTGRES_URL;

@@ -1,15 +1,15 @@
 import { Entity } from './Entity';
 
 interface CreateRestaurantDTO {
-	id?: string;
-	name?: string;
+  id?: string;
+  name?: string;
 }
 
 export class Restaurant extends Entity {
-	name: string;
+  name: string;
 
-	constructor(data: CreateRestaurantDTO) {
-		super(data);
-		this.name = data.name;
-	}
+  constructor(data: CreateRestaurantDTO) {
+    super(data);
+    this.name = data.name;
+  }
 }

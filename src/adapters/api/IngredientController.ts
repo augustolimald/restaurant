@@ -7,46 +7,46 @@ import { CreateIngredientUseCase, UpdateIngredientUseCase, ListIngredientUseCase
 @Service()
 export class IngredientController implements Controller {
 
-	@Inject()
-	private createIngredientUseCase: CreateIngredientUseCase;
+  @Inject()
+  private createIngredientUseCase: CreateIngredientUseCase;
 
-	@Inject()
-	private updateIngredientUseCase: UpdateIngredientUseCase;
+  @Inject()
+  private updateIngredientUseCase: UpdateIngredientUseCase;
 
-	@Inject()
-	private listIngredientUseCase: ListIngredientUseCase;
+  @Inject()
+  private listIngredientUseCase: ListIngredientUseCase;
 
-	public routes(): Router {
-		const router = Router();
+  public routes(): Router {
+    const router = Router();
 
-		router.get('/ingredients', (req, res, next) => this.index(req, res, next));
-		router.post('/ingredients', (req, res, next) => this.create(req, res, next));
-		router.put('/ingredients/:ingredient_id', (req, res, next) => this.update(req, res, next));
+    router.get('/ingredients', (req, res, next) => this.index(req, res, next));
+    router.post('/ingredients', (req, res, next) => this.create(req, res, next));
+    router.put('/ingredients/:ingredient_id', (req, res, next) => this.update(req, res, next));
 
-		return router;
-	}
+    return router;
+  }
 
-	public async index(request: Request, response: Response, next: NextFunction): Promise<Response>{
-		const ingredients = await this.listIngredientUseCase.handle();
-		return response.status(200).json(ingredients);
-	}
+  public async index(request: Request, response: Response, next: NextFunction): Promise<Response>{
+    const ingredients = await this.listIngredientUseCase.handle();
+    return response.status(200).json(ingredients);
+  }
 
-	public async create(request: Request, response: Response, next: NextFunction): Promise<Response>{
-		const ingredient = await this.createIngredientUseCase.handle({
-			name: request.body.name,
-			price: request.body.price
-		});
+  public async create(request: Request, response: Response, next: NextFunction): Promise<Response>{
+    const ingredient = await this.createIngredientUseCase.handle({
+      name: request.body.name,
+      price: request.body.price
+    });
 
-		return response.status(201).json(ingredient);
-	}
+    return response.status(201).json(ingredient);
+  }
 
-	public async update(request: Request, response: Response, next: NextFunction): Promise<Response>{
-		const ingredient = await this.updateIngredientUseCase.handle({
-			id: request.params.ingredient_id,
-			name: request.body.name,
-			price: request.body.price
-		});
+  public async update(request: Request, response: Response, next: NextFunction): Promise<Response>{
+    const ingredient = await this.updateIngredientUseCase.handle({
+      id: request.params.ingredient_id,
+      name: request.body.name,
+      price: request.body.price
+    });
 
-		return response.status(200).json(ingredient);
-	}
+    return response.status(200).json(ingredient);
+  }
 }

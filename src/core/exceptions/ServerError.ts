@@ -1,9 +1,9 @@
 export class ServerError extends Error {
 
-	statusCode: number;
+  statusCode: number;
 
-	constructor(message: string) {
-		super(message);
-		this.statusCode = 500;
-	}
+  constructor(message: string) {
+    super(message);
+    this.statusCode = 500;
+  }
 }
