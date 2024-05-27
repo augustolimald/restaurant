@@ -1,0 +1,714 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "API para plataforma de restaurantes",
+    "title": "Restaurant",
+    "version": "1.0.0",
+    "contact": {
+      "email": "augustocesar827@gmail.com"
+    }
+  },
+  "paths": {
+    "/clients": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Cria cliente",
+        "description": "Cria cliente",
+        "operationId": "createClient",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+								"$ref": "#/components/schemas/CreateClient"
+							}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cliente cadastrado com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Client"
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      }
+    },
+		"/restaurants": {
+			"get": {
+        "tags": [
+          "Restaurants"
+        ],
+        "summary": "Lista restaurantes",
+        "description": "Lista restaurantes",
+        "operationId": "listRestaurants",
+        "responses": {
+          "200": {
+            "description": "Restaurantes listados com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Restaurant"
+									}
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      },
+			"post": {
+        "tags": [
+          "Restaurants"
+        ],
+        "summary": "Cria restaurante",
+        "description": "Cria restaurante",
+        "operationId": "CreateRestaurant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+								"$ref": "#/components/schemas/CreateRestaurant"
+							}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Restaurante cadastrado com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Restaurant"
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      }
+		},
+		"/ingredients": {
+			"get": {
+        "tags": [
+          "Foods"
+        ],
+        "summary": "Lista ingredientes",
+        "description": "Lista ingredientes",
+        "operationId": "listIngredients",
+        "responses": {
+          "200": {
+            "description": "Ingredientes listados com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Ingredient"
+									}
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      },
+			"post": {
+        "tags": [
+          "Foods"
+        ],
+        "summary": "Cria ingrediente",
+        "description": "Cria ingrediente",
+        "operationId": "CreateIngredient",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+								"$ref": "#/components/schemas/CreateIngredient"
+							}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Ingrediente cadastrado com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Ingredient"
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      }
+		},
+		"/ingredients/{ingredient_id}": {
+			"put": {
+        "tags": [
+          "Foods"
+        ],
+        "summary": "Atualiza ingrediente",
+        "description": "Atualiza ingrediente",
+        "operationId": "updateIngredient",
+				"parameters": [
+					{
+						"name": "ingredient_id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+						}
+					}
+				],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+								"$ref": "#/components/schemas/CreateIngredient"
+							}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ingrediente atualizado com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Ingredient"
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      }
+		},
+		"/foods": {
+			"get": {
+        "tags": [
+          "Foods"
+        ],
+        "summary": "Lista comidas",
+        "description": "Lista comidas",
+        "operationId": "listFoods",
+				"parameters": [
+					{
+						"name": "category",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"example": "Lanche"
+						}
+					}
+				],
+        "responses": {
+          "200": {
+            "description": "Comidas listadas com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Food"
+									}
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      },
+			"post": {
+        "tags": [
+          "Foods"
+        ],
+        "summary": "Cria comida",
+        "description": "Cria comida",
+        "operationId": "CreateRestaurant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+								"$ref": "#/components/schemas/CreateFood"
+							}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Comida cadastrada com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Food"
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      }
+		},
+		"/foods/{food_id}": {
+			"put": {
+				"tags": [
+          "Foods"
+        ],
+        "summary": "Atualiza comida",
+        "description": "Atualiza comida",
+        "operationId": "updateFood",
+        "parameters": [
+					{
+						"name": "food_id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+            "application/json": {
+              "schema": {
+								"$ref": "#/components/schemas/CreateFood"
+							}
+            }
+          }
+				},
+        "responses": {
+          "200": {
+            "description": "Comida atualizada com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Food"
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      },
+			"delete": {
+        "tags": [
+          "Foods"
+        ],
+        "summary": "Deleta comida",
+        "description": "Deleta comida",
+        "operationId": "deleteFood",
+        "parameters": [
+					{
+						"name": "food_id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+						}
+					}
+				],
+        "responses": {
+          "204": {
+            "description": "Comida deletada com sucesso"
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      }
+		},
+		"/orders": {
+			"get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Lista pedidos",
+        "description": "Lista pedidos",
+        "operationId": "listOrders",
+				"parameters": [
+					{
+						"name": "status",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"example": "Em Preparação"
+						}
+					},
+					{
+						"name": "restaurant_id",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+						}
+					}
+				],
+        "responses": {
+          "200": {
+            "description": "Pedidos listados com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Order"
+									}
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      },
+			"post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Cria pedidos",
+        "description": "Cria pedidos",
+        "operationId": "CreateOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+								"$ref": "#/components/schemas/CreateOrder"
+							}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pedido cadastrado com sucesso",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Order"
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      }
+		}
+  },
+  "components": {
+    "schemas": {
+      "CreateClient": {
+        "type": "object",
+        "properties": {
+          "cpf": {
+            "type": "string",
+            "example": "12345678901"
+          },
+					"name": {
+            "type": "string",
+            "example": "11999999999"
+          },
+					"email": {
+            "type": "string",
+            "format": "email",
+            "example": "fulano@mail.com"
+          }
+        }
+      },
+			"Client": {
+        "type": "object",
+        "properties": {
+					"id": {
+            "type": "string",
+						"format": "uuid",
+            "example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+          },
+          "cpf": {
+            "type": "string",
+            "example": "12345678901"
+          },
+					"name": {
+            "type": "string",
+            "example": "11999999999"
+          },
+					"email": {
+            "type": "string",
+            "format": "email",
+            "example": "fulano@mail.com"
+          }
+        }
+      },
+			"CreateRestaurant": {
+        "type": "object",
+        "properties": {
+					"name": {
+            "type": "string",
+            "example": "McDonaldos"
+          }
+        }
+      },
+			"Restaurant": {
+        "type": "object",
+        "properties": {
+					"id": {
+            "type": "string",
+						"format": "uuid",
+            "example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+          },
+					"name": {
+            "type": "string",
+            "example": "McDonaldos"
+          }
+        }
+      },
+			"CreateIngredient": {
+        "type": "object",
+        "properties": {
+					"name": {
+            "type": "string",
+            "example": "Queijo mussarela"
+          },
+					"price": {
+            "type": "string",
+            "example": 2.54
+          }
+        }
+      },
+			"Ingredient": {
+        "type": "object",
+        "properties": {
+					"id": {
+            "type": "string",
+						"format": "uuid",
+            "example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+          },
+					"name": {
+            "type": "string",
+            "example": "Queijo mussarela"
+          },
+					"price": {
+            "type": "string",
+            "example": 2.54
+          }
+        }
+      },
+			"CreateFood": {
+        "type": "object",
+        "properties": {
+					"name": {
+            "type": "string",
+            "example": "X Bacon"
+          },
+					"price": {
+            "type": "string",
+            "example": 16.99
+          },
+					"category": {
+            "type": "string",
+            "example": "Lanche"
+          },
+					"ingredients": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+						}
+					}
+        }
+      },
+			"Food": {
+        "type": "object",
+        "properties": {
+					"id": {
+            "type": "string",
+						"format": "uuid",
+            "example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+          },
+					"name": {
+            "type": "string",
+            "example": "X Bacon"
+          },
+					"price": {
+            "type": "string",
+            "example": 16.99
+          },
+					"category": {
+            "type": "string",
+            "example": "Lanche"
+          },
+					"ingredients": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Ingredient"
+						}
+					}
+        }
+      },
+			"CreateOrder": {
+        "type": "object",
+        "properties": {
+					"client_cpf": {
+            "type": "string",
+            "example": "1234567890"
+          },
+					"restaurant_id": {
+						"type": "string",
+						"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+					},
+					"foods": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"food_id": {
+									"type": "string",
+									"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+								},
+								"quantity": {
+									"type": "integer",
+									"example": 2
+								},
+								"ingredientsToAdd": {
+									"type": "array",
+									"items": {
+										"type": "string",
+										"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+									}
+								},
+								"ingredientsToRemove": {
+									"type": "array",
+									"items": {
+										"type": "string",
+										"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+									}
+								}
+							}
+						}
+					}
+        }
+      },
+			"Order": {
+        "type": "object",
+        "properties": {
+					"id": {
+            "type": "string",
+						"format": "uuid",
+            "example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+          },
+					"client": {
+						"$ref": "#/components/schemas/Client"
+					},
+					"restaurant": {
+						"$ref": "#/components/schemas/Restaurant"
+					},
+					"foods": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"food": {
+									"$ref": "#/components/schemas/Restaurant"
+								},
+								"quantity": {
+									"type": "integer",
+									"example": 2
+								},
+								"price": {
+									"type": "number",
+									"example": 43.76
+								},
+								"ingredients": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Ingredient"
+									}
+								},
+								"comments": {
+									"type": "string",
+									"example": "Adicionar Queijo Mussarela | Remover Bacon"
+								}
+							}
+						}
+					},
+					"status": {
+						"type": "string",
+						"example": "Aguardando Pagamento"
+					},
+					"totalPrice": {
+						"type": "number",
+						"example": 87.52
+					},
+					"createdDate": {
+						"type": "string",
+						"example": "2024-04-26T15:08:57.339Z"
+					},
+					"closedDate": {
+						"type": "string",
+						"example": "2024-04-26T15:30:57.339Z"
+					}
+        }
+      }
+    },
+    "responses": {
+      "WrongInfoError": {
+				"description": "Informação inválida."
+			},
+      "UnauthorizedError": {
+        "description": "Token inválido."
+      },
+      "ForbiddenError": {
+        "description": "Você não tem permissão para isso"
+      },
+      "NotFoundError": {
+        "description": "Informação não encontrada"
+      },
+      "ConflictError": {
+        "description": "Essa informação já existe em nossa base de dados"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
