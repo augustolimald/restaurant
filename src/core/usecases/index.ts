@@ -10,3 +10,5 @@ export * from './UpdateFoodUseCase';
 export * from './ListFoodUseCase';
 export * from './DeleteFoodUseCase';
 export * from './ListOrderUseCase';
+export * from './GetOrderStatusUseCase';
+export * from './UpdateOrderStatusUseCase';

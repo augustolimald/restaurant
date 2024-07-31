@@ -26,7 +26,7 @@ export class CreateFoodUseCase implements UseCase<CreateFoodDTO, Food> {
     const food = new Food({
       name: input.name,
       price: input.price,
-      category: FoodCategory.SNACK,
+      category: input.category as FoodCategory,
       ingredients
     });
 

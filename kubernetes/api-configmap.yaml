@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-configmap
+data:
+  REST_API_PORT: "2000"
+  API_URL: localhost:2000
+  POSTGRES_URL: postgres://ps_user:SecurePassword@postgres:5432/ps_db
+  MERCADO_: postgres://ps_user:SecurePassword@postgres:5432/ps_db
+  MERCADOPAGO_URL: https://api.mercadopago.com
+  MERCADOPAGO_POS: x
+  MERCADOPAGO_USER: x
+  MERCADOPAGO_PUBLIC_KEY: x
+  MERCADOPAGO_SECRET_TOKEN: x

@@ -430,7 +430,98 @@
           }
         }
       }
-		}
+		},
+    "/orders/{order_id}/status": {
+			"get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Pega status do Pedido",
+        "description": "Pega status do Pedido",
+        "operationId": "getOrderStatus",
+				"parameters": [
+					{
+						"name": "order_id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+						}
+					}
+				],
+        "responses": {
+          "200": {
+            "description": "Status do Pedido",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Em Preparação"
+                    }
+                  }
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Atualiza status do Pedido",
+        "description": "Atualiza status do Pedido",
+        "operationId": "updateOrderStatus",
+				"parameters": [
+					{
+						"name": "order_id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"example": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+						}
+					}
+				],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "example": "Em Preparação"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pedido atualizado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Order"
+								}
+							}
+						}
+          },
+          "400": {
+            "$ref": "#/components/responses/WrongInfoError"
+          }
+        }
+      }
+    }  
   },
   "components": {
     "schemas": {

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restaurant-api
+  labels:
+    app: restaurant-api
+spec:
+  containers:
+    - name: restaurant-api-container
+      image: augustolimald/restaurant-api
+      ports:
+        - containerPort: 2000
+      envFrom:
+        - configMapRef:
+            name: api-configmap
+  restartPolicy: Always

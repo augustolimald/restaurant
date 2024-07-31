@@ -32,7 +32,8 @@ export class ClientPostgresRepository implements ClientRepository {
 
   async getOrCreate(data: GetClientByCpfDTO): Promise<Client> {
     try {
-      return this.get(data);
+      const client = await this.get(data);
+      return client;
     } catch (error) {
       const client = new Client(data);
       client.id = client.generateId();

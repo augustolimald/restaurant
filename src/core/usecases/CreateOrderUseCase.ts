@@ -2,8 +2,9 @@ import { Inject, Service } from 'typedi';
 import { Order, OrderFood, OrderStatus } from '../entities';
 import { UseCase } from './UseCase';
 import { ClientRepository, FoodRepository, OrderRepository, RestaurantRepository, IngredientRepository } from '../../adapters/database';
+import { PaymentGateway, QrCodeResponse } from '../../adapters/integration';
 
-export interface CreateOrderDTO {
+export interface CreateOrderRequestDTO {
   client_cpf?: string;
   restaurant_id: string;
   foods: [
@@ -16,8 +17,13 @@ export interface CreateOrderDTO {
   ];
 }
 
+export interface CreateOrderResponseDTO {
+  order: Order,
+  paymentData: QrCodeResponse,
+}
+
 @Service()
-export class CreateOrderUseCase implements UseCase<CreateOrderDTO, Order> {
+export class CreateOrderUseCase implements UseCase<CreateOrderRequestDTO, CreateOrderResponseDTO> {
 
   @Inject('client.postgres')
   private clientRepository: ClientRepository;
@@ -34,7 +40,10 @@ export class CreateOrderUseCase implements UseCase<CreateOrderDTO, Order> {
   @Inject('order.postgres')
   private orderRepository: OrderRepository;
 
-  async handle(input: CreateOrderDTO): Promise<Order> {
+  @Inject('mercadopago')
+  private paymentGateway: PaymentGateway;
+
+  async handle(input: CreateOrderRequestDTO): Promise<CreateOrderResponseDTO> {
     const order = new Order({});
     order.id = order.generateId();
 
@@ -84,14 +93,22 @@ export class CreateOrderUseCase implements UseCase<CreateOrderDTO, Order> {
 
     order.createdDate = new Date();
     order.closedDate = null;
-    order.status = OrderStatus.CONFIRMED;
+    order.status = OrderStatus.PENDING_PAYMENT;
     order.totalPrice = order.foods.reduce((sum, food) => sum + (food.price * food.quantity), 0);
-
-    // TODO: set status to pending payment and create payment routes
 
     await this.orderRepository.create(order);
 
-    return order;
+    const qrCodeData = await this.paymentGateway.generateQrCodeForOrder(order);
+
+    // Avoid circular reference when converting to JSON
+    order.foods.forEach(food => {
+      food.order = undefined;
+    });
+
+    return {
+      order,
+      paymentData: qrCodeData,
+    };
   }
 
 }

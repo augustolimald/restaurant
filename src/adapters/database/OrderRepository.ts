@@ -5,6 +5,9 @@ export interface GetOrderDTO {
 }
 
 export interface OrderRepository {
+  getStatus(id: string): Promise<string>;
+  get(id: string): Promise<Order>;
   getAll(data: GetOrderDTO): Promise<Order[]>;
   create(data: Order): Promise<Order>;
+  update(data: Order): Promise<Order>;
 }
